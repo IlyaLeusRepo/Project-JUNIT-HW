@@ -2,14 +2,17 @@ package com.example.tests.web;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import com.example.extensions.SetUpBrowserExtension;
 import com.example.extensions.anno.SetUpBrowser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class DemoQAExtensionTest extends BaseTest {
+@ExtendWith(SetUpBrowserExtension.class)
+public class DemoQAExtensionTest {
 
     @Test
     @SetUpBrowser(url = "https://demoqa.com/automation-practice-form")

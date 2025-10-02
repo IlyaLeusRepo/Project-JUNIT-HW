@@ -12,7 +12,6 @@ public class BaseTest {
     @BeforeAll
     static void setUpAll() {
         // Настройка один раз перед всеми тестами
-
         Configuration.browser = "chrome";
         Configuration.browserSize = "2560x1440";
         Configuration.pageLoadTimeout = 20000;
