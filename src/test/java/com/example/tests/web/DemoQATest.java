@@ -28,11 +28,12 @@ public class DemoQATest extends BaseTest {
                 "Заголовок страницы должен содержать 'DEMOQA'");
     }
 
-    @Disabled
     @Test
+    @Disabled
     void disabledTestExample() {
         Assertions.fail("Этот тест не должен запускаться!");
     }
+
 
     @ValueSource(strings = {
             "Elements",
@@ -49,8 +50,8 @@ public class DemoQATest extends BaseTest {
         Assertions.assertTrue(isCardPresent, "Карточка '" + cardName + "' должна присутствовать на странице");
     }
 
-    @Tag("SINGLE")
     @Test
+    @Tag("SINGLE")
     void clickElementsCard() {
         SelenideElement elementsCard = $$("div.card-body").find(Condition.text("Elements"));
         elementsCard.click();
@@ -61,6 +62,7 @@ public class DemoQATest extends BaseTest {
                 "URL должен содержать '/elements' после клика"
         );
     }
+
 
     @CsvSource(value = {
             "Elements | elements",
@@ -87,7 +89,7 @@ public class DemoQATest extends BaseTest {
 
     @MethodSource("cardNameAndUrlProvider")
     @ParameterizedTest(name = "Проверка URL для карточки: {0} → должен содержать '{1}'")
-    void checkCardNavigation(String cardName, PageUrl pageUrl) {
+    void checkCard(String cardName, PageUrl pageUrl) {
         // Находим карточку по названию и кликаем
         SelenideElement targetCard = $$("div.card-body").find(Condition.text(cardName));
         targetCard.click();
