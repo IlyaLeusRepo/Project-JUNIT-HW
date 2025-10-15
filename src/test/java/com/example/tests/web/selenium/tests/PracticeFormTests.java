@@ -1,55 +1,67 @@
 package com.example.tests.web.selenium.tests;
 
 
-import com.example.tests.web.selenium.pages.BasePage;
-import com.example.tests.web.selenium.pages.DemoqaPage;
-import com.example.tests.web.selenium.pages.FormsPage;
-import com.example.tests.web.selenium.pages.PracticeFormPage;
+import driver.WebDriverManager;
+import pages.BasePage;
+import pages.DemoQaPage;
+import pages.FormsPage;
+import pages.PracticeFormPage;
 import dev.failsafe.internal.util.Assert;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pages.SubmitForm;
+
+import java.time.Duration;
 
 
+class PracticeFormTests extends BasePage {
 
-class PracticeFormTests {
+    @AfterEach
+    public void cleanUp(){
+        close();
+    }
+
     @Test
     void checkSendPracticeFormTest() {
-        DemoqaPage demoqaPage = new BasePage().openDemoqaPage();
+        DemoQaPage demoqaPage = new BasePage().openDemoqaPage();
         Assertions.assertTrue(demoqaPage.getFormsTab().isDisplayed(), "Карточка с название Forms присутствует");
 
         FormsPage formsPage = demoqaPage.openFormsPage();
 
         PracticeFormPage practiceFormPage = new PracticeFormPage();
 
-        practiceFormPage.openTab(practiceFormPage.getFirstName());
+        practiceFormPage.clickElement(practiceFormPage.getFirstName());
         practiceFormPage.fillField(practiceFormPage.getFirstName(), "Jack");
 
-        practiceFormPage.openTab(practiceFormPage.getLastName());
+        practiceFormPage.clickElement(practiceFormPage.getLastName());
         practiceFormPage.fillField(practiceFormPage.getLastName(), "Doe");
 
-        practiceFormPage.openTab(practiceFormPage.getEmail());
+        practiceFormPage.clickElement(practiceFormPage.getEmail());
         practiceFormPage.fillField(practiceFormPage.getEmail(), "xxx@gmail.com");
 
-        practiceFormPage.openTab(practiceFormPage.getMale());
+        practiceFormPage.clickElement(practiceFormPage.getMale());
 
-        practiceFormPage.openTab(practiceFormPage.getMobileNumber());
+        practiceFormPage.clickElement(practiceFormPage.getMobileNumber());
         practiceFormPage.fillField(practiceFormPage.getMobileNumber(), "5646456456");
 
-        practiceFormPage.openTab(practiceFormPage.getSports());
+        practiceFormPage.clickElement(practiceFormPage.getSports());
 
-        practiceFormPage.openTab(practiceFormPage.getCurrentAddress());
+        practiceFormPage.clickElement(practiceFormPage.getCurrentAddress());
         practiceFormPage.fillField(practiceFormPage.getCurrentAddress(), "Nsk");
 
-        practiceFormPage.openTab(practiceFormPage.getSubmit());
+        practiceFormPage.clickElement(practiceFormPage.getSubmit());
 
 
         //Проверка соответствия информации в полях формы
-        Assertions.assertEquals("Jack Doe", practiceFormPage.getStudentNameValue().getText(), "Имя не соответствует");
-        Assertions.assertEquals("xxx@gmail.com", practiceFormPage.getStudentEmailValue().getText(), "Email не соответствует");
-        Assertions.assertEquals("Male", practiceFormPage.getStudentGenderValue().getText(), "Пол не соответствует");
-        Assertions.assertEquals("+5646456456", practiceFormPage.getStudentMobileValue().getText(),"Номер телефона не соответствует");
+        SubmitForm submitForm = new SubmitForm();
+        BasePage.waitForAllVisibleElements(submitForm, WebDriverManager.getDriver(), Duration.ofSeconds(5));
+        Assertions.assertEquals("Jack Doe", submitForm.getStudentNameValue().getText(), "Имя не соответствует");
+        Assertions.assertEquals("xxx@gmail.com", submitForm.getStudentEmailValue().getText(), "Email не соответствует");
+        Assertions.assertEquals("Male", submitForm.getStudentGenderValue().getText(), "Пол не соответствует");
+        Assertions.assertEquals("+5646456456", submitForm.getStudentMobileValue().getText(),"Номер телефона не соответствует");
 
-        practiceFormPage.openTab(practiceFormPage.getButtonClose());
+        submitForm.clickElement(submitForm.getButtonClose());
 
         //Проверка после закрытия, что все поля очистились и чекбоксы доступны для нажатия
         Assert.isTrue(practiceFormPage.getFirstName().getAttribute("value").isEmpty(),"Поле не пустое");
@@ -59,6 +71,5 @@ class PracticeFormTests {
         Assert.isTrue(practiceFormPage.getMobileNumber().getAttribute("value").isEmpty(),"Поле не пустое");
 
         demoqaPage.close();
-
     }
 }

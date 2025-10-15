@@ -29,7 +29,6 @@ public class DemoQATest extends BaseTest {
     }
 
     @Test
-    @Disabled
     void disabledTestExample() {
         Assertions.fail("Этот тест не должен запускаться!");
     }
