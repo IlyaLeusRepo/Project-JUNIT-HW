@@ -1,4 +1,4 @@
-package com.example.tests.web.selenium;
+package com.example.tests.web.selenium.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
