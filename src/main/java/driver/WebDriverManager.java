@@ -12,7 +12,8 @@ public class WebDriverManager {
 
     private static WebDriver initWebDriver() {
         try {
-            System.setProperty("webdriver.gecko.driver", "src/test/resources/geckodriver.exe");
+            //System.setProperty("webdriver.gecko.driver", "src/test/resources/geckodriver.exe");
+            System.setProperty("webdriver.gecko.driver", "/Users/ilyaleus/Documents/Project-HW/src/test/resources/geckodriver");
             driver = new FirefoxDriver();
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));

@@ -6,29 +6,26 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import pages.BasePage;
 
 public class BaseTest {
 
     @BeforeAll
     static void setUpAll() {
         // Настройка один раз перед всеми тестами
-        Configuration.browser = "chrome";
         Configuration.browserSize = "2560x1440";
-        Configuration.pageLoadTimeout = 20000;
         System.out.println(">>> [BeforeAll] Браузер настроен глобально.");
     }
 
     @BeforeEach
     void setUpEach() {
         // Открытие главной страницы перед каждым тестом
-        Selenide.open("https://demoqa.com/");
         System.out.println(">>> [BeforeEach] Открыта главная страница DemoQA.");
     }
 
     @AfterEach
-    void tearDownEach() {
-        // Закрытие браузера после каждого теста
-        Selenide.closeWebDriver();
+    public void cleanUp(){
+        BasePage.driver.quit();
         System.out.println(">>> [AfterEach] Браузер закрыт.");
     }
 
