@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.time.Duration;
 
 public class BasePage {
-    protected static WebDriver driver = WebDriverManager.getDriver();
+    public static WebDriver driver = WebDriverManager.getDriver();
     private String basePageUrl = "https://demoqa.com";
 
     public DemoQaPage openDemoqaPage() {
@@ -50,9 +50,5 @@ public class BasePage {
                 }
             }
         }
-    }
-
-    public void close() {
-        driver.quit();
     }
 }

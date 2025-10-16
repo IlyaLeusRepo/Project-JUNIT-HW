@@ -1,6 +1,7 @@
 package com.example.tests.web.selenium.tests;
 
 
+import com.example.tests.web.BaseTest;
 import driver.WebDriverManager;
 import pages.BasePage;
 import pages.DemoQaPage;
@@ -15,12 +16,7 @@ import pages.SubmitForm;
 import java.time.Duration;
 
 
-class PracticeFormTests extends BasePage {
-
-    @AfterEach
-    public void cleanUp(){
-        close();
-    }
+class PracticeFormTests extends BaseTest {
 
     @Test
     void checkSendPracticeFormTest() {
@@ -59,7 +55,7 @@ class PracticeFormTests extends BasePage {
         Assertions.assertEquals("Jack Doe", submitForm.getStudentNameValue().getText(), "Имя не соответствует");
         Assertions.assertEquals("xxx@gmail.com", submitForm.getStudentEmailValue().getText(), "Email не соответствует");
         Assertions.assertEquals("Male", submitForm.getStudentGenderValue().getText(), "Пол не соответствует");
-        Assertions.assertEquals("+5646456456", submitForm.getStudentMobileValue().getText(),"Номер телефона не соответствует");
+        Assertions.assertEquals("5646456456", submitForm.getStudentMobileValue().getText(),"Номер телефона не соответствует");
 
         submitForm.clickElement(submitForm.getButtonClose());
 
@@ -67,9 +63,8 @@ class PracticeFormTests extends BasePage {
         Assert.isTrue(practiceFormPage.getFirstName().getAttribute("value").isEmpty(),"Поле не пустое");
         Assert.isTrue(practiceFormPage.getLastName().getAttribute("value").isEmpty(),"Поле не пустое");
         Assert.isTrue(practiceFormPage.getEmail().getAttribute("value").isEmpty(),"Поле не пустое");
-        Assert.isTrue(practiceFormPage.getFirstName().isSelected(),"Поле не пустое");
+        Assert.isTrue(!practiceFormPage.getMale().isSelected(),"Поле не пустое");
         Assert.isTrue(practiceFormPage.getMobileNumber().getAttribute("value").isEmpty(),"Поле не пустое");
 
-        demoqaPage.close();
     }
 }
