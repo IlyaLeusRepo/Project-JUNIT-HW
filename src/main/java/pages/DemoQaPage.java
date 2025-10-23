@@ -23,6 +23,12 @@ public class DemoQaPage extends BasePage {
     @FindBy(xpath = "//h5[text()= 'Widgets']")
     private WebElement widgetsTab;
 
+    @Getter
+    @FindBy(xpath = "//h5[text()= 'Alerts, Frame & Windows']")
+    private WebElement AlertsFrameWindowsTab;
+
+
+
     public DemoQaPage() {
         PageFactory.initElements(driver, this);
     }
@@ -41,6 +47,11 @@ public class DemoQaPage extends BasePage {
     public WidgetsPage openWidgetsPage() {
         clickElement(widgetsTab);
         return new WidgetsPage();
+    }
+
+    public AlertsFrameWindowsPage openAlertsFrameWindowsPage() {
+        clickElement(AlertsFrameWindowsTab);
+        return new AlertsFrameWindowsPage();
     }
 
 
