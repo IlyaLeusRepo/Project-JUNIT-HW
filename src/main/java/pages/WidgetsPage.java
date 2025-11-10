@@ -34,6 +34,9 @@ public class WidgetsPage {
     private SelenideElement elementMultiBlue = $x("//*[@id='react-select-4-option-1']");
 
     @Getter
+    private SelenideElement elementMultiBlack = $x("//*[@id='react-select-4-option-2']");
+
+    @Getter
     private ElementsCollection elementsMultiDropDown = $$("div.css-1rhbuit-multiValue div.css-12jo7m5");
 
 
