@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
-public class Hooks {
+public class Config {
 
     @BeforeAll
     public static void setUp() {

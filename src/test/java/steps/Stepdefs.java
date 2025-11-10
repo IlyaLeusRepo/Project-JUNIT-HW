@@ -28,7 +28,7 @@ public class Stepdefs {
 
     @Когда("сделан клик по кнопке {string}")
     public void clickAlertsButton(String str) {
-        $(byText(str)).click();
+        $(byText(str)).shouldBe(Condition.visible).click();
     }
 
     @Тогда("в меню отображаются шесть подпунктов")
@@ -82,7 +82,7 @@ public class Stepdefs {
 
     @Когда("^сделан клик по \"(.*?)\"$")
     public void clickWidgetsButton(String str) {
-        $(byText(str)).click();
+        $(byText(str)).shouldBe(Condition.visible).click();
     }
 
     @И("в меню Widgets сделан клик по пункту Progress Bar")
