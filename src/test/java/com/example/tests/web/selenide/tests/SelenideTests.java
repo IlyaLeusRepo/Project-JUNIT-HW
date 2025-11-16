@@ -5,6 +5,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.example.tests.web.BaseTest;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -18,87 +19,61 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@Epic("Тестирование тренажера DemoQA")
+@Feature("Проверки элементов форм")
 public class SelenideTests extends BaseTest {
 
     @Test
+    @Story("Проверка раздела Alerts, Frame & Windows")
     void checkFrameInAlertsPageTest() {
 
-        $x("//h5[text()= 'Alerts, Frame & Windows']").click();
-        AlertsFrameWindowsPage alertsFrameWindowsPage = new AlertsFrameWindowsPage();
+        $x("//h5[text()='Alerts, Frame & Windows']").click();
 
-        Assertions.assertTrue(alertsFrameWindowsPage.getBrowserWindow().isDisplayed(), "Карточка с название Browser Windows присутствует");
-        Assertions.assertTrue(alertsFrameWindowsPage.getAlerts().isDisplayed(), "Карточка с название Alerts присутствует");
-        Assertions.assertTrue(alertsFrameWindowsPage.getFrames().isDisplayed(), "Карточка с название Frames присутствует");
-        Assertions.assertTrue(alertsFrameWindowsPage.getNestedFrames().isDisplayed(), "Карточка с название Nested Frames присутствует");
-        Assertions.assertTrue(alertsFrameWindowsPage.getModalDialogs().isDisplayed(), "Карточка с название Modal Dialogs присутствует");
+        AlertsFrameWindowsPage alerts = new AlertsFrameWindowsPage();
+        NestedFramesPage nested = new NestedFramesPage();
 
-        alertsFrameWindowsPage.getNestedFrames().click();
-        NestedFramesPage nestedFramesPage = new NestedFramesPage();
-        nestedFramesPage.getNestedFrame().shouldHave(text("Sample Nested Iframe page"));
-        switchTo().frame(nestedFramesPage.getParentFrame());
-        switchTo().frame(nestedFramesPage.getChildFrame());
-        assertEquals("Child Iframe", $("body").text());
-        switchTo().parentFrame();
-        assertEquals("Parent frame", $("body").text());
-        switchTo().defaultContent();
-        nestedFramesPage.getNestedFrame().shouldHave(text("Sample Nested Iframe page"));
+        alerts.verifyAllCardsVisible();
+        alerts.clickNestedFrames();
 
+        nested.verifyNestedFrameHeader();
+        nested.switchToParentFrame();
+        nested.switchToChildFrame();
+        nested.verifyBodyText("Child Iframe");
+        nested.switchToParent();
+        nested.verifyBodyText("Parent frame");
+        nested.switchToDefault();
+        nested.verifyNestedFrameHeader();
     }
 
     @Test
+    @Story("Проверка раздела Widgets")
     void checkProgressBarInWidgetPageTest() {
 
-        $x("//h5[text()= 'Widgets']").click();
-        WidgetsPage widgetsPage = new WidgetsPage();
+        $x("//h5[text()='Widgets']").click();
+        WidgetsPage widgets = new WidgetsPage();
 
-        widgetsPage.getProgressBarButtonInMenu().click();
-        widgetsPage.getStartButton().shouldHave(text("Start"));
-        widgetsPage.getStartButton().click();
-        widgetsPage.getStartButton().shouldHave(text("Stop"));
-
-        SelenideElement progressBar = widgetsPage.getElementProgressBar();
-
-        try {
-            progressBar.shouldHave(Condition.match("Progress at least 30%",
-                    element -> {
-                        String value = element.getAttribute("aria-valuenow");
-                        return value != null && Integer.parseInt(value) >= 30;
-                    }), Duration.ofSeconds(10));
-            widgetsPage.getStartButton().click();
-
-        } catch (Exception e) {
-            String currentValue = progressBar.getAttribute("aria-valuenow");
-            System.out.println("Прогресс бар не достиг 30%. Текущее значение: " + currentValue + "%");
-            widgetsPage.getStartButton().click();
-            throw e;
-        }
-
+        widgets.openProgressBarMenu();
+        widgets.startProgressBar();
+        widgets.waitProgressBarAtLeast(30);
+        widgets.stopProgressBar();
     }
 
     @Test
+    @Story("Проверка Select и MultiSelect")
     void checkDropDownInWidgetPageTest() {
 
-        $x("//h5[text()= 'Widgets']").click();
-        WidgetsPage widgetsPage = new WidgetsPage();
+        $x("//h5[text()='Widgets']").click();
+        WidgetsPage widgets = new WidgetsPage();
 
-        widgetsPage.getElementSelectMenu().click();
-        widgetsPage.getElementOldSelectMenu().click();
-        widgetsPage.getElementOldSelectMenu().selectOptionByValue("1");
-        Assertions.assertEquals("Blue", widgetsPage.getElementOldSelectMenu().getSelectedOptionText(), "Имя не соответствует");
+        widgets.openSelectMenu();
+        widgets.openOldSelectMenu();
+        widgets.chooseOldSelectMenuValue("1");
+        widgets.verifyOldSelectMenuValue("Blue");
 
-        widgetsPage.getElementMultiSelect().click();
-        widgetsPage.getElementMultiGreen().click();
-        widgetsPage.getElementMultiBlue().click();
-
-        ElementsCollection selectedValues = widgetsPage.getElementsMultiDropDown();
-        selectedValues.shouldHave(CollectionCondition.size(2));
-
-        String firstText = selectedValues.get(0).getText();
-        String secondText = selectedValues.get(1).getText();
-        Assertions.assertEquals("Green", firstText, "Имя не соответствует");
-        Assertions.assertEquals("Blue", secondText, "Имя не соответствует");
-
+        widgets.openMultiSelect();
+        widgets.chooseGreen();
+        widgets.chooseBlue();
+        widgets.verifyMultiselectValues("Green", "Blue");
     }
 
 }
